@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态文字</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0c0c1e 0%, #1a1a3e 50%, #0c0c1e 100%);
+            overflow: hidden;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        .text-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .char {
+            font-size: 5rem;
+            font-weight: 900;
+            display: inline-block;
+            animation: bounce 1.2s ease-in-out infinite;
+            text-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 80px currentColor;
+            position: relative;
+        }
+
+        .char:nth-child(1) {
+            color: #ff6b6b;
+            animation-delay: 0s;
+        }
+        .char:nth-child(2) {
+            color: #ffa502;
+            animation-delay: 0.1s;
+        }
+        .char:nth-child(3) {
+            color: #ffd43b;
+            animation-delay: 0.2s;
+        }
+        .char:nth-child(4) {
+            color: #51cf66;
+            animation-delay: 0.3s;
+        }
+        .char:nth-child(5) {
+            color: #339af0;
+            animation-delay: 0.4s;
+        }
+        .char:nth-child(6) {
+            color: #cc5de8;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            25% {
+                transform: translateY(-60px) scale(1.1);
+            }
+            50% {
+                transform: translateY(0) scale(1);
+            }
+            75% {
+                transform: translateY(-30px) scale(1.05);
+            }
+        }
+
+        /* 背景粒子 */
+        .particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: float linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            animation: pulse-ring 3s ease-in-out infinite;
+        }
+
+        .glow-ring:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            animation-delay: 0.5s;
+        }
+
+        .glow-ring:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        .subtitle {
+            margin-top: 40px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 4px;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glow-ring"></div>
+        <div class="glow-ring"></div>
+        <div class="glow-ring"></div>
+        <div class="text-wrapper">
+            <span class="char">吴</span>
+            <span class="char">子</span>
+            <span class="char">洋</span>
+            <span class="char">是</span>
+            <span class="char">g</span>
+            <span class="char">a</span>
+            <span class="char">y</span>
+        </div>
+        <div class="subtitle">✦ 动态跳动展示 ✦</div>
+    </div>
+
+    <script>
+        // 创建背景粒子
+        const colors = ['#ff6b6b', '#ffa502', '#ffd43b', '#51cf66', '#339af0', '#cc5de8', '#ff8787', '#74c0fc'];
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+            particle.style.width = (Math.random() * 6 + 2) + 'px';
+            particle.style.height = particle.style.width;
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+
+        // 每隔一段时间创建粒子
+        setInterval(createParticle, 300);
+
+        // 初始创建一些粒子
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createParticle, i * 150);
+        }
+    </script>
+</body>
+</html>
